@@ -81,5 +81,47 @@
 		my.number.less.than.ten=${random.int(10)}
 		my.number.in.range=${random.int[1024,65536]}
 	</code></pre>
+15. 配置文件的加载,加载顺序如下:
+	+ `file:./custom-config/`
+	+ `classpath:custom-config/`
+	+ `file:./config/`
+	+ `file:./`
+	+ `classpath:/config/`
+	+ `classpath:/`
+	+ 使用
+		+ 在config下加入user.properties
+			<pre><code>
+				com.itdage.user.name = scy
+				com.itdage.user.age = 24
+			</code></pre>
+		+ 在User.java中
+			<pre><code>
+				@Component
+				@ConfigurationProperties(prefix = "com.itdage.user")
+				@PropertySource("classpath:config/user.properties")
+				public class User {
+					
+					private String name;
+					
+					private int age;
+				
+					public String getName() {
+						return name;
+					}
+				
+					public void setName(String name) {
+						this.name = name;
+					}
+				
+					public int getAge() {
+						return age;
+					}
+				
+					public void setAge(int age) {
+						this.age = age;
+					}
+				}
+
+			</code></pre>
 15. -------77  Page63----------
 	
