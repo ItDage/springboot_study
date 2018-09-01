@@ -1,14 +1,16 @@
 package com.itdage.entity;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "com.itdage.user")
-@PropertySource("classpath:config/user.properties")
+//@ConfigurationProperties(prefix = "com.itdage.user")
+//@PropertySource("classpath:config/user.properties")
 public class User {
 	
+	@Value("${name}")
 	private String name;
 	
 	private int age;

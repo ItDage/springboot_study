@@ -40,7 +40,7 @@
 12. 改变启动的banner
 	+ 配置文件banner.txt
 	+ SpringApplication.setBanner(...)程序化生成banner。
-13. SpringBoot事件监听器:
+###SpringBoot事件监听器:
 	+ ApplicationStartingEvent：SpringBoot启动开始的时候执行的事件,在该事件中可以获取到SpringApplication对象,可以做一些执行前的设置。取消banner等。
 	+ ApplicationEnvironmentPreparedEvent：spring boot 对应Enviroment已经准备完毕，但此时上下文context还没有创建。在该监听中获取到ConfigurableEnvironment后可以对配置信息做操作，例如：修改默认的配置信息，增加额外的配置信息等等。
 	+ ApplicationPreparedEvent:spring boot上下文context创建完成，但此时spring中的bean是没有完全加载完成的。在获取完上下文后，可以将上下文传递出去做一些额外的操作。值得注意的是：在该监听器中是无法获取自定义bean并进行操作的。
@@ -72,6 +72,7 @@
 				}
 		}
 		</code></pre>
+###配置文件
 14. @Value("${name}")注入值。生成配置随机值
 	<pre><code>
 		my.secret=${random.value}
@@ -123,5 +124,21 @@
 				}
 
 			</code></pre>
+
+###Logging
+1. 日志模板包括下列内容
+	+ 日期和时间
+	+ 日志级别: ERROR,WARN,INFO,DEBUG,TRACE
+	+ 进程ID
+	+ 分隔符----
+	+ 线程名
+	+ 日志名(通常是源文件,class文件)
+	+ 日志信息
+2. 日志输出到文件:
+	+ application.properties中加入logging.file或者logging.path
+	+ 日志系统是在应用程序生命周期的早期初始化的。因此，在通过@PropertySource注释加载的属性文件中找不到日志属性。
+###内嵌服务器
+1. `spring-boot-starter-web`内嵌Tomcat  还可用`spring-boot-starter-webflux`
+
 15. -------77  Page63----------
 	
