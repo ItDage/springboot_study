@@ -139,6 +139,98 @@
 	+ 日志系统是在应用程序生命周期的早期初始化的。因此，在通过@PropertySource注释加载的属性文件中找不到日志属性。
 ###内嵌服务器
 1. `spring-boot-starter-web`内嵌Tomcat  还可用`spring-boot-starter-webflux`
-
-15. -------77  Page63----------
-	
+###JSON序列化和反序列化
+1. `@JsonComponent``JsonObjectSerializer``@JsonObjectDeserializer`
+2. MessageCodesResolver
+###静态资源加载
+1. 默认加载路径
+	+ `/static`
+	+ `/public`
+	+ `/resources`
+	+ `/META-INF/resources`
+2. 其他目录的static文件配置
+	+ `application.properties`中添加自己的目录即可
+		+ `spring.mvc.static-path-pattern=/static/**`
+		+ `spring.resources.static-locations=classpath:/static/`
+	+ 重写WebMvcConfigureAdapter的配置
+		+ <pre><code>
+			@Configuration
+			public class MyWebAppConfig extends WebMvcConfigurerAdapter {
+			    @Override
+			    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+			        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+			        super.addResourceHandlers(registry);
+			    }
+			}
+		</code></pre>
+3. 默认找static下的index.html文件当做主页。
+4. 使用模板的时候(如Thymeleaf)寻找文件的位置为:`src/main/resources/templates`
+###ErrorController(异常处理待深入了解)
+1. SpringBoot默认提供一个`/error`的映射,浏览器访问发生错误时返回`text/html`格式,PostMan访问发生错误时返回`json`格式。
+	+ 自定义错误返回格式:继承`BasicErrorController`
+2. 定制错误页面
+	+ 不使用模板引擎时在src/main/resources/public/eroor/404.html(精确的状态码)
+	+ 使用模板引擎时在src/main/resources/templates/error/500.html
+###Spring HATEOAS
+###CORS支持
+1. Spring MVC 4.2版本以后。
+2. 
+		@Configuration
+		public class MyConfiguration {
+			@Bean
+			public WebMvcConfigurer corsConfigurer() {
+				return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/api/**");
+				}
+			};
+		}
+###Spirng WebFlux Framework
+###Servlets,Filter,Listeners
+1. 自动注册带有如下标识的类`@WebServlet``@WebFilter``@WebListener`通过`@ServletComponentScan`
+###Security
+###JdbcTemplate
+1. `@Autowired`自动注入即可
+2. `spring-boot-starter-data-jpa`[https://blog.csdn.net/tony308001970/article/details/74999680](https://blog.csdn.net/tony308001970/article/details/74999680 "csdn比较全面的介绍")
+###Working with NoSQL Technologies
+1. NoSQL技术
+	+ MongoDB `spring-boot-starter-data-mongodb`
+		+ 使用时自动注入`org.springframework.data.mongodb.MongoDbFactory``MongoTemplate`,默认连接地址`mongodb://localhost/test`
+		+ `spring.data.mongodb.uri=mongodb://user:secret@mongo1.example.com:12345,mongo2.example.com:23456/test配置可以更改连接属性地址``spring.data.mongodb.host=mongoserver改主机``spring.data.mongodb.port=27017改端口`
+		+ 修改主机和端口只支持MongoDB 2.x  MongoDB 3.x需要在uri中一起制定配置
+	+ Elasticsearch
+		+ 要连接到Elasticsearch，必须提供一个或多个集群节点的地址。可以通过设置spring.data.elasticsearch来指定地址。一个逗号分隔的主机:端口列表的cluster-nodes属性
+		+ `spring-boot-starter-data-elasticsearch`
+		+ 自动注入`JestClient`、`ElasticsearchTemplate`、`TransportClient`操作,默认地址`localhost:9200`
+		+ 修改配置
+			+ `spring.elasticsearch.jest.uris=http://search.example.com:9200`
+			`spring.elasticsearch.jest.read-timeout=10000`
+			`spring.elasticsearch.jest.username=user`
+			`spring.elasticsearch.jest.password=secret`
+		+ 也可实现`HttpClientConfigBuilderCustomizer`实现更多定制化
+	+ Solr
+	+ Redis `spring-boot-starter-data-redis`
+		+ 使用时自动注入`RedisConnectionFactory``StringRedisTemplate``RedisTemplate`,默认连接地址`localhost:6379`
+	+ 等等
+###Caching
+###Messaging
+1. JMS
+	+ `JmsTemplate`自动注入。
+2. ActiveMQ
+###Calling REST Services with RestTemplate
+1. 简略HttpClient的调用
+###Calling REST Services with WebClient
+###Validation
+1. JSR-303
+###Sending Email
+###Distributed Transactions with JTA
+###Hazelcast
+###Quartz Scheduler
+1. `spring-boot-starter-quartz`
+###Spring Session
+###Monitoring and Management over JMX
+###Testing(重要)
+###WebSockets
+1. `详细介绍`[https://www.jianshu.com/p/4ef5004a1c81](https://www.jianshu.com/p/4ef5004a1c81 "WebSocket详解")
+###Web Services
