@@ -41,6 +41,10 @@ public class Result {
 	public void setObj(Object obj) {
 		this.obj = obj;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "{code:" + code + ", msg:" + msg + ", obj:" + obj + "}";
+	}
 	
 }
