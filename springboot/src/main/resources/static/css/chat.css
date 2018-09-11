@@ -1,0 +1,26 @@
+
+.head{
+	height: 46px;
+}
+
+.headImage{
+	margin-left: 5px;
+	width: 40px;
+	height: 40px;
+}
+
+.content{
+	height: 280px;
+}
+
+.layui-bg-green{
+	margin: 0;
+}
+
+.layui-textarea{
+	height: 100px;
+}
+
+.operate{
+	text-align: right;
+}
