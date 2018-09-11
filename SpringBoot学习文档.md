@@ -233,6 +233,9 @@
 ###Testing(重要)
 ###WebSockets
 1. `详细介绍`[https://www.jianshu.com/p/4ef5004a1c81](https://www.jianshu.com/p/4ef5004a1c81 "WebSocket详解")
+2. 刷新页面会导致websocket重连
+3. json字符串转对象
+	+ js:JSON.parse(str)
 ###Web Services
 ###过滤器&&拦截器
 1. `详细介绍`[https://segmentfault.com/a/1190000012072060](https://segmentfault.com/a/1190000012072060 "SpringBoot过滤器和拦截器")
