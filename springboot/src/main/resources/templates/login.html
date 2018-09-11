@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+<script th:src="@{/js/websocket.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/index.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<form id="loginForm">
+	用户名:<input name="username" />
+	<br />
+	密码:<input name="password" />
+	<br />
+</form>
+	<button onclick="isagree()">登录</button>
+<script type="text/javascript">
+function isagree() {
+	  var obj = $('#loginForm').serialize();
+	  $.ajax({
+	    type: "POST",
+	    url: "/login",
+	    async: false,
+	    data: obj,// 要提交的表单
+	    success: function (result) {
+	    	alert(result.code == 200)
+	    	if(result.code == 200){
+	    		window.location.href = "/index";
+	    	}else if(result.code == 400){
+	    		alert("用户已存在 请重新输入");
+	    	}
+	    },
+	    error: function (error) {
+	    	alert(error);
+	    }
+	  });
+	}
+</script>
+</body>
+</html>

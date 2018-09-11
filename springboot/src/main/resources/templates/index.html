@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>首页</title>
+<script th:src="@{/js/websocket.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/index.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="layui-container">
+		<blockquote class="layui-elem-quote">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
+
+		<fieldset class="layui-elem-field layui-field-title"
+			style="margin-top: 20px;">
+			<legend>始终等比例水平排列</legend>
+		</fieldset>
+
+		<div class="layui-row">
+			<div class="layui-col-xs4">
+				<div class="grid-demo grid-demo-bg1">
+					<ul>
+						<li>昵称:嘻嘻嘻嘻嘻</li>
+						<li>账号:8888888888</li>
+						<li>年龄:23</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-col-xs4">
+				<div class="layui-tab layui-tab layui-tab-brief">
+					<ul class="layui-tab-title">
+						<li class="layui-this">历史会话</li>
+						<li>用户列表</li>
+						<li>群组</li>
+						<li>其他</li>
+					</ul>
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							3. 高度默认自适应，也可以随意固宽。 <br>2. Tab进行了响应式处理，所以无需担心数量多少。
+						</div>
+						<div class="layui-tab-item">
+							<ul>
+								<li style="height: 50px;"><a class="showBG"
+									onclick="chat()"> <img alt="" src="/image/QQ.png"
+										width="40px" height="40px"> &nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
+								</a></li>
+								<li style="height: 50px;"><a class="showBG" href="#"> <img
+										alt="" src="/image/QQ.png" width="40px" height="40px">
+										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
+								</a></li>
+								<li style="height: 50px;"><a class="showBG" href="#"> <img
+										alt="" src="/image/QQ.png" width="40px" height="40px">
+										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
+								</a></li>
+								<li style="height: 50px;"><a class="showBG" href="#"> <img
+										alt="" src="/image/QQ.png" width="40px" height="40px">
+										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
+								</a></li>
+								<li style="height: 50px;"><a class="showBG" href="#"> <img
+										alt="" src="/image/QQ.png" width="40px" height="40px">
+										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
+								</a></li>
+								<li style="height: 50px;"><a class="showBG" href="#"> <img
+										alt="" src="/image/QQ.png" width="40px" height="40px">
+										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
+								</a></li>
+								<li style="height: 50px;"><a class="showBG" href="#"> <img
+										alt="" src="/image/QQ.png" width="40px" height="40px">
+										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
+								</a></li>
+								<li style="height: 50px;"><a class="showBG" href="#"> <img
+										alt="" src="/image/QQ.png" width="40px" height="40px">
+										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
+								</a></li>
+							</ul>
+						</div>
+						<div class="layui-tab-item">内容3</div>
+						<div class="layui-tab-item">内容4</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs4">
+				<div class="grid-demo grid-demo-bg1">3/12</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+<script type="text/javascript">
+	var host = location.host;
+	var websocket = null;
+	if ('WebSocket' in window) {
+		websocket = new WebSocket("ws://" + host + "/userList");
+		//接收到消息
+		websocket.onmessage = function(evt) {
+			var received_msg = evt.data;
+			
+		};
+	} else {
+		alert('该浏览器不支持websocket')
+	}
+
+	layui.use([ 'element', 'layer' ], function() {
+		var $ = layui.jquery, element = layui.element, layer = layui.layer; //Tab的切换功能，切换事件监听等，需要依赖element模块
+		//触发事件
+		$('.site-demo-active').on('click', function() {
+			var othis = $(this), type = othis.data('type');
+			active[type] ? active[type].call(this, othis) : '';
+		});
+
+		window.chat = function() {
+			layer.open({
+				type : 2,
+				title : '聊天界面',
+				shadeClose : true,
+				shade : false,
+				maxmin : true, //开启最大化最小化按钮
+				area : [ '700px', '560px' ],
+				content : '/chatPage'
+			});
+		}
+	});
+</script>
+</html>
