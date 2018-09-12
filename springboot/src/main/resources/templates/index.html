@@ -57,7 +57,10 @@
 				</div>
 			</div>
 			<div class="layui-col-xs4">
-				<div class="grid-demo grid-demo-bg1">3/12</div>
+				<div class="grid-demo grid-demo-bg1">
+					<ul id="notice">
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -84,9 +87,9 @@
 											+ "</span>"
 											+ "</a></li>");
 				}
-			} else {
+			} else if(result.code == 203){
 				// 上线通知
-				alert(evt.data);
+				$("#notice").append("<li>" + result.msg + "</li>");
 			}
 
 		};
@@ -112,6 +115,7 @@
 		window.chat = function() {
 			layer.open({
 				type : 2,
+				id : 1,
 				title : '聊天界面',
 				shadeClose : true,
 				shade : false,
