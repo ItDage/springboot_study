@@ -31,7 +31,7 @@
 				<div class="layui-tab layui-tab layui-tab-brief">
 					<ul class="layui-tab-title">
 						<li class="layui-this">历史会话</li>
-						<li>用户列表</li>
+						<li onclick="loadUserList()">用户列表</li>
 						<li>群组</li>
 						<li>其他</li>
 					</ul>
@@ -44,30 +44,6 @@
 								<li style="height: 50px;"><a class="showBG"
 									onclick="chat()"> <img alt="" src="/image/QQ.png"
 										width="40px" height="40px"> &nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
-								</a></li>
-								<li style="height: 50px;"><a class="showBG" href="#"> <img
-										alt="" src="/image/QQ.png" width="40px" height="40px">
-										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
-								</a></li>
-								<li style="height: 50px;"><a class="showBG" href="#"> <img
-										alt="" src="/image/QQ.png" width="40px" height="40px">
-										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
-								</a></li>
-								<li style="height: 50px;"><a class="showBG" href="#"> <img
-										alt="" src="/image/QQ.png" width="40px" height="40px">
-										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
-								</a></li>
-								<li style="height: 50px;"><a class="showBG" href="#"> <img
-										alt="" src="/image/QQ.png" width="40px" height="40px">
-										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
-								</a></li>
-								<li style="height: 50px;"><a class="showBG" href="#"> <img
-										alt="" src="/image/QQ.png" width="40px" height="40px">
-										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
-								</a></li>
-								<li style="height: 50px;"><a class="showBG" href="#"> <img
-										alt="" src="/image/QQ.png" width="40px" height="40px">
-										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
 								</a></li>
 								<li style="height: 50px;"><a class="showBG" href="#"> <img
 										alt="" src="/image/QQ.png" width="40px" height="40px">
@@ -95,18 +71,35 @@
 		websocket = new WebSocket("ws://" + host + "/userList");
 		//接收到消息
 		websocket.onmessage = function(evt) {
-			var Result = JSON.parse(evt.data);
-			for(var i = 0; i < Result.object.length; i++){
-				alert(Result.obj[i]);
+			var result = JSON.parse(evt.data);
+			if (result.code == 202) {
+				// 人员列表
+				$("#userOnlineList").empty();
+				for (var i = 0; i < result.obj.length; i++) {
+					$("#userOnlineList")
+							.append(
+									"<li style='height: 50px;'><a class='showBG' onclick='chat()'> <img src='/image/QQ.png'"
+	                        + "width='40px' height='40px'> &nbsp;&nbsp;&nbsp;&nbsp;<span>"
+											+ result.obj[i]
+											+ "</span>"
+											+ "</a></li>");
+				}
+			} else {
+				// 上线通知
+				alert(evt.data);
 			}
-			$("#userOnlineList").append("<li style='height: 50px;'><a class='showBG' onclick='chat()'> <img src='/image/QQ.png'"
-                                + "width='40px' height='40px'> &nbsp;&nbsp;&nbsp;&nbsp;<span>"+ Result.msg +"</span>"
-								+"</a></li>");
+
 		};
 	} else {
 		alert('该浏览器不支持websocket')
 	}
 	
+	
+	function loadUserList(){
+		var result = {};
+		result.code = 202;
+		websocket.send(JSON.stringify(result));
+	}
 
 	layui.use([ 'element', 'layer' ], function() {
 		var $ = layui.jquery, element = layui.element, layer = layui.layer; //Tab的切换功能，切换事件监听等，需要依赖element模块
