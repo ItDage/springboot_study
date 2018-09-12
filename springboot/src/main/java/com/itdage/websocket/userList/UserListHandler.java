@@ -89,11 +89,35 @@ public class UserListHandler extends AbstractWebSocketHandler {
 		try {
 			for (Entry<String, WebSocketSession> entry : entrySet) {
 				session = entry.getValue();
-				// 如果当前用户是自己则不推送上线消息
+				// 如果当前用户是自己则不推送上线消息 但推送上线列表
 				if (entry.getKey().equals(username)) {
 					continue;
 				}
 				result.setMsg(username + msg);
+				// 待优化
+				session.sendMessage(new TextMessage(new Gson().toJson(result)));
+			}
+		} catch (IOException e) {
+			session.close();
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 
+	 * @Title: broadcastUserList 
+	 * @Description: 广播用户列表
+	 * @param set 用户列表
+	 * @throws IOException
+	 * @return: void
+	 */
+	public void broadcastUserList(Set<String> set) throws IOException {
+		Result result = new Result();
+		WebSocketSession session = null;
+		result.setObj(set);
+		// 发送消息
+		try {
+			for (String username : set) {
 				// 待优化
 				session.sendMessage(new TextMessage(new Gson().toJson(result)));
 			}
