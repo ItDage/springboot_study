@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>聊天界面</title>
-<script th:src="@{/js/websocket.js}"></script>
 <script th:src="@{/js/chat.js}"></script>
 <script th:src="@{/layui/layui.js}"></script>
 <script th:src="@{/js/jquery.js}"></script>
@@ -53,6 +52,18 @@
 	</div>
 </body>
 <script>
+	var host = location.host;
+	var websocket = null;
+	if ('WebSocket' in window) {
+		websocket = new WebSocket("ws://" + host + "/chat");
+		//接收到消息
+		websocket.onmessage = function(evt) {
+			alert(evt);
+		};
+	} else {
+		alert('该浏览器不支持websocket')
+	}
+
 	layui.use('layedit', function() {
 		var layedit = layui.layedit, $ = layui.jquery;
 
@@ -66,8 +77,6 @@
 			active[type] ? active[type].call(this) : '';
 		});
 	});
-	
-	
 </script>
 
 </html>

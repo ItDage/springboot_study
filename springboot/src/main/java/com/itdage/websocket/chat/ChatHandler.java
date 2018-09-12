@@ -13,6 +13,7 @@ public class ChatHandler extends AbstractWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		// TODO Auto-generated method stub
 		super.afterConnectionEstablished(session);
+		System.out.println("chat连接成功");
 	}
 
 	@Override
