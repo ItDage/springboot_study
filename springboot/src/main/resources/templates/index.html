@@ -81,7 +81,7 @@
 				for (var i = 0; i < result.obj.length; i++) {
 					$("#userOnlineList")
 							.append(
-									"<li style='height: 50px;'><a class='showBG' onclick='chat()'> <img src='/image/QQ.png'"
+									'<li style="height: 50px;"><a class="showBG" onclick=chat("'+ result.obj[i]+'")> <img src="/image/QQ.png"'
 	                        + "width='40px' height='40px'> &nbsp;&nbsp;&nbsp;&nbsp;<span>"
 											+ result.obj[i]
 											+ "</span>"
@@ -112,16 +112,16 @@
 			active[type] ? active[type].call(this, othis) : '';
 		});
 
-		window.chat = function() {
+		window.chat = function(to_user) {
+			alert(to_user);
 			layer.open({
 				type : 2,
-				id : 1,
 				title : '聊天界面',
 				shadeClose : true,
 				shade : false,
 				maxmin : true, //开启最大化最小化按钮
 				area : [ '700px', '560px' ],
-				content : '/chatPage'
+				content : '/chatPage?to_user='+to_user
 			});
 		}
 	});

@@ -52,17 +52,27 @@
 	</div>
 </body>
 <script>
-	var host = location.host;
-	var websocket = null;
-	if ('WebSocket' in window) {
-		websocket = new WebSocket("ws://" + host + "/chat");
-		//接收到消息
-		websocket.onmessage = function(evt) {
-			alert(evt.data);
-		};
-	} else {
-		alert('该浏览器不支持websocket')
-	}
+	
+	
+	$(function(){
+		 var url = location.search; //获取url中"?"符后的字串
+		   if (url.indexOf("?") != -1) {    //判断是否有参数
+		      var str = url.substr(1); //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
+		      strs = str.split("=");   //用等号进行分隔 （因为知道只有一个参数 所以直接用等号进分隔 如果有多个参数 要用&号分隔 再用等号进行分隔）
+		      var to_user = strs[1];          //直接弹出第一个参数 （如果有多个参数 还要进行循环的）
+		   }
+		   var host = location.host;
+		   if ('WebSocket' in window) {
+				var websocket = new WebSocket("ws://" + host + "/chat?user_to=" + to_user);
+				//接收到消息
+				websocket.send(to_user);
+				websocket.onmessage = function(evt) {
+					alert(evt.data);
+				};
+			} else {
+				alert('该浏览器不支持websocket')
+			}
+	})
 
 	layui.use('layedit', function() {
 		var layedit = layui.layedit, $ = layui.jquery;
@@ -77,6 +87,7 @@
 			active[type] ? active[type].call(this) : '';
 		});
 	});
+	
 </script>
 
 </html>
