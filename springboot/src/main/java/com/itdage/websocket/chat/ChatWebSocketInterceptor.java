@@ -21,9 +21,9 @@ public class ChatWebSocketInterceptor implements HandshakeInterceptor {
 			String user_to = servletRequest.getServletRequest().getParameter("user_to");
 			System.out.println(user_to);
 //			String msg = servletRequest.getServletRequest().getParameter("msg");
-			if (!StringUtils.isEmpty(user_from)) {
+			if (!StringUtils.isEmpty(user_from) && !StringUtils.isEmpty(user_to)) {
 				attributes.put("user_from", user_from);
-//				attributes.put("user_to", user_to);
+				attributes.put("user_to", user_to);
 //				attributes.put("msg", msg);
 			}
 		}
