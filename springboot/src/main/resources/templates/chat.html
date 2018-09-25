@@ -46,14 +46,14 @@
 		<div class="layui-row">
 			<div class="operate">
 				<button class="layui-btn layui-btn-primary layui-btn-xs">重置</button>
-				<button class="layui-btn layui-btn-xs">发送</button>
+				<button class="layui-btn layui-btn-xs site-demo-layedit" data-type="content">发送</button>
 			</div>
 		</div>
 	</div>
 </body>
 <script>
 	
-	
+	var websocket = null;
 	$(function(){
 		 var url = location.search; //获取url中"?"符后的字串
 		   if (url.indexOf("?") != -1) {    //判断是否有参数
@@ -63,9 +63,8 @@
 		   }
 		   var host = location.host;
 		   if ('WebSocket' in window) {
-				var websocket = new WebSocket("ws://" + host + "/chat?user_to=" + to_user);
+				websocket = new WebSocket("ws://" + host + "/chat?user_to=" + to_user);
 				//接收到消息
-				websocket.send(to_user);
 				websocket.onmessage = function(evt) {
 					alert(evt.data);
 				};
@@ -81,6 +80,20 @@
 		var index = layedit.build('LAY_demo1', {
 			height : 120
 		});
+		
+		//编辑器外部操作
+		  var active = {
+		    content: function(){
+		      //获取编辑器内容
+		      websocket.send(layedit.getContent(index));
+		    }
+		    ,text: function(){
+		      alert(layedit.getText(index)); //获取编辑器纯文本内容
+		    }
+		    ,selection: function(){
+		      alert(layedit.getSelection(index));
+		    }
+		  };
 
 		$('.site-demo-layedit').on('click', function() {
 			var type = $(this).data('type');
