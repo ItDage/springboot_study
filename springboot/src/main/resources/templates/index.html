@@ -21,8 +21,8 @@
 			<div class="layui-col-xs4">
 				<div class="grid-demo grid-demo-bg1">
 					<ul>
-						<li>昵称:嘻嘻嘻嘻嘻</li>
-						<li>账号:8888888888</li>
+						<li>昵称:<span th:text="${session.username}"></span></li>
+						<li>账号:<span th:text="${session.username}"></span></li>
 						<li>年龄:23</li>
 					</ul>
 				</div>
@@ -85,11 +85,14 @@
 	                        + "width='40px' height='40px'> &nbsp;&nbsp;&nbsp;&nbsp;<span>"
 											+ result.obj[i]
 											+ "</span>"
-											+ "</a></li>");
+											+ '<span id=notice_' + result.obj[i] +' style="float:right; margin-top: 0 auto;"></span></a></li>');
 				}
 			} else if(result.code == 203){
 				// 上线通知
 				$("#notice").append("<li>" + result.msg + "</li>");
+			}else if(result.code == 205){
+				// 消息通知
+				$("#notice_" + result.obj).addClass("layui-badge-dot layui-bg-orange");
 			}
 
 		};
@@ -113,7 +116,6 @@
 		});
 
 		window.chat = function(to_user) {
-			alert(to_user);
 			layer.open({
 				type : 2,
 				title : '聊天界面',
