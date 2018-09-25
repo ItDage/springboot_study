@@ -26,5 +26,6 @@ public class ChatHandler extends AbstractWebSocketHandler {
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		// TODO Auto-generated method stub
 		super.afterConnectionClosed(session, status);
+		System.out.println("chat连接关闭");
 	}
 }

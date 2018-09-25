@@ -58,7 +58,7 @@
 		websocket = new WebSocket("ws://" + host + "/chat");
 		//接收到消息
 		websocket.onmessage = function(evt) {
-			alert(evt);
+			//alert(evt);
 		};
 	} else {
 		alert('该浏览器不支持websocket')

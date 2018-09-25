@@ -28,8 +28,10 @@ public class UserListHandler extends AbstractWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) {
 		this.session = session;
+		System.out.println("主页websocket连接建立");
 		// 获取拦截中的用户名
 		String username = (String) session.getAttributes().get("username");
+//		if(String)
 		// 保存用户名和session的映射关系,发送消息时用
 		userSessionMap.put(username, session);
 		// 保存人员在线列表
