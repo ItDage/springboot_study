@@ -24,4 +24,13 @@ public class StatusConstant {
 	 * 下线通知
 	 */
 	public static final int OUTLINE_NOTICE = 204;
+	/**
+	 * 主页消息通知
+	 */
+	public static final int MESSAGE_INDEX_NOTICE = 205;
+	/**
+	 * chat页面消息通知
+	 */
+	public static final int MESSAGE_CHAT_NOTICE = 206;
+	
 }
