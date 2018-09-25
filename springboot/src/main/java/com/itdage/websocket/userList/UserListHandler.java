@@ -3,7 +3,6 @@ package com.itdage.websocket.userList;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,13 +35,17 @@ public class UserListHandler extends AbstractWebSocketHandler {
 		userSessionMap.put(username, session);
 		// 保存人员在线列表
 		set.add(username);
-		System.out.println("在线人员个数start" + set.size());
+		Result result = new Result();
+		
 		// 广播上线通知
 		try {
 			// 广播上线通知
-			broadcastMsg(userSessionMap, username, "上线了...");
+			result.setCode(StatusConstant.ONLINE_NOTICE);
+			result.setMsg(username + "上线了");
+			broadcastMsg(set, username, false, true, result);
 			// 广播用户列表(排除自己给其他人发)
-			broadcastUserList(set, username, false, true);
+			result.setCode(StatusConstant.USERLIST);
+			broadcastMsg(set, username, false, true, result);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -51,22 +54,19 @@ public class UserListHandler extends AbstractWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		String msg = message.getPayload();
-		System.out.println("接收到客户端信息:" + message.getPayload());
 		Result result = new Gson().fromJson(msg, Result.class);
 		if (result.getCode() == StatusConstant.USERLIST) {
-			broadcastUserList(set, (String)session.getAttributes().get("username"), true, false);
+			broadcastMsg(set, (String)session.getAttributes().get("username"), true, false, result);
 		}
-		System.out.println(result);
-		session.sendMessage(new TextMessage("hello websocket"));
 	}
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		String username = (String)session.getAttributes().get("username");
-		System.out.println("连接关闭时清除的用户名:" + username);
 		set.remove(username);
 		userSessionMap.remove(username);
-		System.out.println("在线人员个数" + set.size());
-		broadcastUserList(set, (String)session.getAttributes().get("username"), false, true);
+		Result result = new Result();
+		result.setCode(StatusConstant.USERLIST);
+		broadcastMsg(set, (String)session.getAttributes().get("username"), false, true, result);
 	}
 	public WebSocketSession getSession() throws Exception {
 		if (!this.session.isOpen()) {
@@ -77,35 +77,7 @@ public class UserListHandler extends AbstractWebSocketHandler {
 	public void setSession(WebSocketSession session) {
 		this.session = session;
 	}
-	/**
-	 * @Title: broadcastMsg
-	 * @Description: 广播消息
-	 * @param map 在线人员的map
-	 * @param username 上线的用户名
-	 * @param msg 消息的内容
-	 * @return: void
-	 * @throws IOException
-	 */
-	public void broadcastMsg(Map<String, WebSocketSession> map, String username, String msg) throws IOException {
-		Set<Entry<String, WebSocketSession>> entrySet = map.entrySet();
-		Result result = new Result();
-		WebSocketSession session = null;
-		// 发送消息
-		try {
-			for (Entry<String, WebSocketSession> entry : entrySet) {
-				session = entry.getValue();
-				// 如果当前用户是自己则不推送上线消息 但推送上线列表
-				if (entry.getKey().equals(username)) {
-					continue;
-				}
-				result.setMsg(username + msg);
-				// 待优化
-				session.sendMessage(new TextMessage(new Gson().toJson(result)));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+
 	/**
 	 * @Title: broadcastUserList
 	 * @Description: 广播用户列表
@@ -113,19 +85,17 @@ public class UserListHandler extends AbstractWebSocketHandler {
 	 * @param username 当前用户
 	 * @param isSingle 是否是单发
 	 * @param excludeCurrentUser 发送信息时是否排除当前用户
+	 * @param result 返回的消息包装类
 	 * @throws IOException
 	 * @return: void
 	 */
-	public void broadcastUserList(Set<String> set, String username, boolean isSingle, boolean excludeCurrentUser) throws IOException {
-		Result result = new Result();
-		result.setCode(StatusConstant.USERLIST);
+	public void broadcastMsg(Set<String> set, String username, boolean isSingle, boolean excludeCurrentUser, Result result) throws IOException {
 		result.setObj(set);
 		// 发送消息
 		try {
 			if(isSingle){
 				// 给指定人发
 				userSessionMap.get(username).sendMessage(new TextMessage(new Gson().toJson(result)));
-				
 			}else{
 				// 给所有人发
 				for (String userName : set) {

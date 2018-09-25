@@ -15,17 +15,18 @@ public class ChatWebSocketInterceptor implements HandshakeInterceptor {
 	@Override
 	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
 			Map<String, Object> attributes) throws Exception {
-//		if (request instanceof ServletServerHttpRequest) {
-//			ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
-//			String user_from= (String) servletRequest.getServletRequest().getSession().getAttribute("username");
-//			String user_to = servletRequest.getServletRequest().getParameter("user_to");
+		if (request instanceof ServletServerHttpRequest) {
+			ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
+			String user_from= (String) servletRequest.getServletRequest().getSession().getAttribute("username");
+			String user_to = servletRequest.getServletRequest().getParameter("user_to");
+			System.out.println(user_to);
 //			String msg = servletRequest.getServletRequest().getParameter("msg");
-//			if (!StringUtils.isEmpty(user_from)) {
-//				attributes.put("user_from", user_from);
-//				attributes.put("user_to", user_to);
+			if (!StringUtils.isEmpty(user_from) && !StringUtils.isEmpty(user_to)) {
+				attributes.put("user_from", user_from);
+				attributes.put("user_to", user_to);
 //				attributes.put("msg", msg);
-//			}
-//		}
+			}
+		}
 		return true;
 	}
 	@Override

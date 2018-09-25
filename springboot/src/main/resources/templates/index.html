@@ -57,7 +57,10 @@
 				</div>
 			</div>
 			<div class="layui-col-xs4">
-				<div class="grid-demo grid-demo-bg1">3/12</div>
+				<div class="grid-demo grid-demo-bg1">
+					<ul id="notice">
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -78,15 +81,15 @@
 				for (var i = 0; i < result.obj.length; i++) {
 					$("#userOnlineList")
 							.append(
-									"<li style='height: 50px;'><a class='showBG' onclick='chat()'> <img src='/image/QQ.png'"
+									'<li style="height: 50px;"><a class="showBG" onclick=chat("'+ result.obj[i]+'")> <img src="/image/QQ.png"'
 	                        + "width='40px' height='40px'> &nbsp;&nbsp;&nbsp;&nbsp;<span>"
 											+ result.obj[i]
 											+ "</span>"
 											+ "</a></li>");
 				}
-			} else {
+			} else if(result.code == 203){
 				// 上线通知
-				alert(evt.data);
+				$("#notice").append("<li>" + result.msg + "</li>");
 			}
 
 		};
@@ -109,7 +112,8 @@
 			active[type] ? active[type].call(this, othis) : '';
 		});
 
-		window.chat = function() {
+		window.chat = function(to_user) {
+			alert(to_user);
 			layer.open({
 				type : 2,
 				title : '聊天界面',
@@ -117,7 +121,7 @@
 				shade : false,
 				maxmin : true, //开启最大化最小化按钮
 				area : [ '700px', '560px' ],
-				content : '/chatPage'
+				content : '/chatPage?to_user='+to_user
 			});
 		}
 	});
