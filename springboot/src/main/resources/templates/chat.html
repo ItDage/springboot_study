@@ -19,7 +19,7 @@
 		</div>
 		<hr class="layui-bg-green">
 		<div class="layui-row">
-			<div id="content"></div>
+			<div id="content" style="overflow-y: auto; overflow-x: hidden;"></div>
 		</div>
 		<hr class="layui-bg-green">
 		<div class="layui-row">
@@ -56,6 +56,7 @@
 				if (result.code == 206) {
 					// chat页面消息推送
 					$("#content").append('<p>' + result.obj + '</p>');
+					setScrollLocation();
 				}
 			};
 		} else {
@@ -79,6 +80,8 @@
 				$("#content").append(
 						'<p style="text-align:right;">' + layedit.getContent(index)
 								+ '</p>');
+				// 滚动条保持在底端
+				setScrollLocation();
 			},
 			text : function() {
 				alert(layedit.getText(index)); //获取编辑器纯文本内容
@@ -93,6 +96,11 @@
 			active[type] ? active[type].call(this) : '';
 		});
 	});
+	// 设置滚动条的位置
+	function setScrollLocation(){
+		var scrollHeight = $("#content").prop("scrollHeight");
+		$("#content").scrollTop(scrollHeight, 200);
+	}
 </script>
 
 </html>

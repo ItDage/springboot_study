@@ -20,3 +20,6 @@
 			    });
 		}
 	});
+##滚动条保持在底端
+		var scrollHeight = $("#content").prop("scrollHeight");
+		$("#content").scrollTop(scrollHeight, 200);

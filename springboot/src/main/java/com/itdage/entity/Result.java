@@ -1,5 +1,6 @@
 package com.itdage.entity;
 
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,11 +13,34 @@ import org.springframework.stereotype.Component;
 @Component
 public class Result {
 	
+	/**
+	 * 状态码
+	 */
 	private int code;
 	
+	/**
+	 * 消息
+	 */
 	private String msg;
 	
+	/**
+	 * 通用体
+	 */
 	private Object obj;
+	
+	/**
+	 * 发送消息的时间
+	 */
+	private String date;
+	
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
 
 	public int getCode() {
 		return code;

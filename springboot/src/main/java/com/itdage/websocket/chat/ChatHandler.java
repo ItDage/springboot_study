@@ -1,5 +1,6 @@
 package com.itdage.websocket.chat;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,6 +14,7 @@ import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 import com.google.gson.Gson;
 import com.itdage.constant.StatusConstant;
 import com.itdage.entity.Result;
+import com.itdage.util.DateUtil;
 import com.itdage.websocket.userList.UserListHandler;
 
 @Component
@@ -36,23 +38,22 @@ public class ChatHandler extends AbstractWebSocketHandler {
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		// 构造消息返回实体
 		Result result = new Result();
+		// 消息发送时间--通用
+		result.setDate(DateUtil.getYMDHMSByDate(new Date()));
 		String user_from = (String) session.getAttributes().get("user_from");
 		String user_to = (String) session.getAttributes().get("user_to");
 		// 入口user_from和user_to已判断是否为空,此处不需再判断
 		if (user_from.equals(relationMap.get(user_to))) {
 			// 推送到chat.html的websocket上 此处待优化(保存分两步走的)
 			result.setCode(StatusConstant.MESSAGE_CHAT_NOTICE);
-			result.setMsg(user_from + "给" + user_to + "发送消息");
 			result.setObj(message.getPayload());
 			chatSessionMap.get(user_to).sendMessage(new TextMessage(new Gson().toJson(result)));
-			System.out.println("推送到chat.html");
 		} else {
 			// 推送到主页上
 			result.setCode(StatusConstant.MESSAGE_INDEX_NOTICE);
 			result.setMsg((String)message.getPayload());
 			result.setObj(user_to);
 			UserListHandler.userSessionMap.get(user_to).sendMessage(new TextMessage(new Gson().toJson(result)));
-			System.out.println("推送到index.html");
 		}
 	}
 
