@@ -19,7 +19,16 @@
 		</div>
 		<hr class="layui-bg-green">
 		<div class="layui-row">
-			<div id="content" style="overflow-y: auto; overflow-x: hidden;"></div>
+			<div id="content" style="overflow-y: auto; overflow-x: hidden;">
+				<div>
+					<p style="text-align: right; color: #1E9FFF">孙垂友&nbsp;&nbsp;&nbsp;&nbsp;2018-09-27
+						12:37:45</p>
+					<p style="text-align: right;">
+						<span style="text-align: center;">test</span>
+					</p>
+				</div>
+
+			</div>
 		</div>
 		<hr class="layui-bg-green">
 		<div class="layui-row">
@@ -53,8 +62,13 @@
 			//接收到消息
 			websocket.onmessage = function(evt) {
 				var result = JSON.parse(evt.data);
-				if (result.code == 206) {
-					// chat页面消息推送
+				if (result.code == 207) {
+					// chat页面消息推送--自己推送自己页面
+					
+					// 滚动条保持在底端
+					setScrollLocation();
+				} else if (result.code == 206) {
+					// chat页面消息推送--别人发过来的
 					$("#content").append('<p>' + result.obj + '</p>');
 					setScrollLocation();
 				}
@@ -77,11 +91,6 @@
 			content : function() {
 				//获取编辑器内容
 				websocket.send(layedit.getContent(index));
-				$("#content").append(
-						'<p style="text-align:right;">' + layedit.getContent(index)
-								+ '</p>');
-				// 滚动条保持在底端
-				setScrollLocation();
 			},
 			text : function() {
 				alert(layedit.getText(index)); //获取编辑器纯文本内容
@@ -97,7 +106,7 @@
 		});
 	});
 	// 设置滚动条的位置
-	function setScrollLocation(){
+	function setScrollLocation() {
 		var scrollHeight = $("#content").prop("scrollHeight");
 		$("#content").scrollTop(scrollHeight, 200);
 	}

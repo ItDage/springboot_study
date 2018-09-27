@@ -44,9 +44,12 @@ public class ChatHandler extends AbstractWebSocketHandler {
 		String user_to = (String) session.getAttributes().get("user_to");
 		// 入口user_from和user_to已判断是否为空,此处不需再判断
 		if (user_from.equals(relationMap.get(user_to))) {
-			// 推送到chat.html的websocket上 此处待优化(保存分两步走的)
-			result.setCode(StatusConstant.MESSAGE_CHAT_NOTICE);
 			result.setObj(message.getPayload());
+			// 推送到自己的chat.html页面(前端也可以直接推送,但是时间前端获取不到)
+			result.setCode(StatusConstant.MESSAGE_CHAT_NOTICE_ME);
+			chatSessionMap.get(user_from).sendMessage(new TextMessage(new Gson().toJson(result)));
+			// 推送到对方chat.html的websocket上 此处待优化(保存分两步走的)
+			result.setCode(StatusConstant.MESSAGE_CHAT_NOTICE);
 			chatSessionMap.get(user_to).sendMessage(new TextMessage(new Gson().toJson(result)));
 		} else {
 			// 推送到主页上

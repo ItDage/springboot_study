@@ -29,8 +29,12 @@ public class StatusConstant {
 	 */
 	public static final int MESSAGE_INDEX_NOTICE = 205;
 	/**
-	 * chat页面消息通知--消息推送
+	 * chat页面消息通知--消息推送 --推送到对方chat.html
 	 */
 	public static final int MESSAGE_CHAT_NOTICE = 206;
+	/**
+	 * chat页面消息通知--消息推送 --推送到自己chat.html
+	 */
+	public static final int MESSAGE_CHAT_NOTICE_ME = 207;
 	
 }

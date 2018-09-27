@@ -25,7 +25,6 @@ function isagree() {
 	    async: false,
 	    data: obj,// 要提交的表单
 	    success: function (result) {
-	    	alert(result.code == 200)
 	    	if(result.code == 200){
 	    		window.location.href = "/index";
 	    	}else if(result.code == 400){
