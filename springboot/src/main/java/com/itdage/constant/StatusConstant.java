@@ -1,5 +1,8 @@
 package com.itdage.constant;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,10 +30,19 @@ public class StatusConstant {
 	/**
 	 * 主页消息通知
 	 */
+	
 	public static final int MESSAGE_INDEX_NOTICE = 205;
 	/**
-	 * chat页面消息通知--消息推送
+	 * chat页面消息通知--消息推送 --推送到对方chat.html
 	 */
 	public static final int MESSAGE_CHAT_NOTICE = 206;
+	/**
+	 * chat页面消息通知--消息推送 --推送到自己chat.html
+	 */
+	public static final int MESSAGE_CHAT_NOTICE_ME = 207;
+	/**
+	 * 主页消息取消
+	 */
+	public static final int MESSAGE_INDEX_CANCEL = 208;
 	
 }

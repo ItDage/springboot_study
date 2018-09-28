@@ -12,4 +12,10 @@ public class IndexController {
 		
 		return "index.html";
 	}
+	
+	@RequestMapping(value = "/testPage")
+	public String forwardTest(){
+		
+		return "test.html";
+	}
 }

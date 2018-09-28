@@ -14,12 +14,13 @@
 		<div class="layui-row">
 			<div id="head">
 				<img alt="" src="/image/QQ.png" class="headImage">
-				&nbsp;&nbsp;<span>咫尺天涯</span>
+				&nbsp;&nbsp;<span id="to_user">咫尺天涯</span>
 			</div>
 		</div>
 		<hr class="layui-bg-green">
 		<div class="layui-row">
-			<div id="content"></div>
+			<div id="content" style="overflow-y: auto; overflow-x: hidden;">
+			</div>
 		</div>
 		<hr class="layui-bg-green">
 		<div class="layui-row">
@@ -40,11 +41,14 @@
 <script>
 	var websocket = null;
 	$(function() {
+		$('#LAY_layedit_1').contents().find('body').focus();
 		var url = location.search; //获取url中"?"符后的字串
+		var to_user = null;
 		if (url.indexOf("?") != -1) { //判断是否有参数
 			var str = url.substr(1); //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
 			strs = str.split("="); //用等号进行分隔 （因为知道只有一个参数 所以直接用等号进分隔 如果有多个参数 要用&号分隔 再用等号进行分隔）
-			var to_user = strs[1]; //直接弹出第一个参数 （如果有多个参数 还要进行循环的）
+			to_user = decodeURI(strs[1]); //直接弹出第一个参数 （如果有多个参数 还要进行循环的）
+			$("#to_user").text(to_user);
 		}
 		var host = location.host;
 		if ('WebSocket' in window) {
@@ -53,9 +57,21 @@
 			//接收到消息
 			websocket.onmessage = function(evt) {
 				var result = JSON.parse(evt.data);
-				if (result.code == 206) {
-					// chat页面消息推送
-					$("#content").append('<p>' + result.obj + '</p>');
+				if (result.code == 207) {
+					// chat页面消息推送--自己推送自己页面
+					$("#content").append('<div style="text-align: right;">'
+					+ '<p style="color: #1E9FFF">' + result.user_from + '&nbsp;&nbsp;&nbsp;&nbsp;' + result.date + '</p>'
+					+ '<p><span style="">' + result.msg + '</span></p>'
+					+ '</div>');
+					// 滚动条保持在底端
+					setScrollLocation();
+				} else if (result.code == 206) {
+					// chat页面消息推送--别人发过来的
+					$("#content").append('<div style="text-align: left;">'
+					+ '<p style="color: #009688">' + result.user_from + '&nbsp;&nbsp;&nbsp;&nbsp;' + result.date + '</p>'
+					+ '<p><span style="">' + result.msg + '</span></p>'
+					+ '</div>');
+					setScrollLocation();
 				}
 			};
 		} else {
@@ -76,9 +92,8 @@
 			content : function() {
 				//获取编辑器内容
 				websocket.send(layedit.getContent(index));
-				$("#content").append(
-						'<p style="text-align:right;">' + layedit.getContent(index)
-								+ '</p>');
+				$('#LAY_layedit_1').contents().find('body').html('');
+				
 			},
 			text : function() {
 				alert(layedit.getText(index)); //获取编辑器纯文本内容
@@ -93,6 +108,12 @@
 			active[type] ? active[type].call(this) : '';
 		});
 	});
+	// 设置滚动条的位置
+	function setScrollLocation() {
+		var scrollHeight = $("#content").prop("scrollHeight");
+		$("#content").scrollTop(scrollHeight, 200);
+	}
+
 </script>
 
 </html>
