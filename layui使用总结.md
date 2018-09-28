@@ -23,3 +23,5 @@
 ##滚动条保持在底端
 		var scrollHeight = $("#content").prop("scrollHeight");
 		$("#content").scrollTop(scrollHeight, 200);
+##清空富文本编辑器的内容
+	$('#LAY_layedit_1').contents().find('body').html('');//这个id是写死的就是这样和build的没关系

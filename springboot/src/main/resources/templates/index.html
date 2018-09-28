@@ -67,7 +67,8 @@
 
 
 </body>
-<script type="text/javascript">
+<script type="text/javascript"  th:inline="javascript">
+/*<![CDATA[*/
 	var host = location.host;
 	var websocket = null;
 	if ('WebSocket' in window) {
@@ -91,8 +92,10 @@
 				// 上线通知
 				$("#notice").append("<li>" + result.msg + "</li>");
 			}else if(result.code == 205){
-				// 消息通知
+				// 消息通知--设置小黄点
 				$("#notice_" + result.obj).addClass("layui-badge-dot layui-bg-orange");
+			}else if(result.code == 208){
+				$("#notice_" + result.obj).removeClass("layui-badge-dot layui-bg-orange");
 			}
 
 		};
@@ -121,11 +124,13 @@
 				title : '聊天界面',
 				shadeClose : true,
 				shade : false,
+				resize : false,
 				maxmin : true, //开启最大化最小化按钮
 				area : [ '700px', '560px' ],
 				content : '/chatPage?to_user='+to_user
 			});
 		}
 	});
+	/* ]]>*/
 </script>
 </html>
