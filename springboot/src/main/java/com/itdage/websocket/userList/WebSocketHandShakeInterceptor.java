@@ -23,9 +23,11 @@ public class WebSocketHandShakeInterceptor implements HandshakeInterceptor {
 			String username = (String) servletRequest.getServletRequest().getSession().getAttribute("username");
 			if(!StringUtils.isEmpty(username)){
 				attributes.put("username", username);
+				return true;
 			}
+			System.out.println("拦截" + username);
 		}
-		return true;
+		return false;
 	}
 	@Override
 	public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,

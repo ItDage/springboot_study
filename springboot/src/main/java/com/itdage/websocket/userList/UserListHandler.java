@@ -1,6 +1,7 @@
 package com.itdage.websocket.userList;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,8 +19,8 @@ import com.itdage.entity.Result;
 
 @Service
 public class UserListHandler extends AbstractWebSocketHandler {
-	// 登录后保存的用户名  退出即注销
-	public static Set<String> set = LoginController.userMap.keySet();
+	// 登录后保存的用户名  退出即注销, 必须要new一下 不这样写会报错:java.lang.UnsupportedOperationException: null 详见:https://blog.csdn.net/Tracycater/article/details/77592472?locationNum=2&fps=1
+	public static Set<String> set = new HashSet<>(LoginController.userMap.keySet());
 	// 保存用户名和session的映射关系
 	public static Map<String, WebSocketSession> userSessionMap = new ConcurrentHashMap<String, WebSocketSession>();
 	// 其他类注入
@@ -33,6 +34,8 @@ public class UserListHandler extends AbstractWebSocketHandler {
 		String username = (String) session.getAttributes().get("username");
 //		if(String)
 		// 保存用户名和session的映射关系,发送消息时用
+		System.out.println("建立连接前" + set);
+		set.add(username);
 		userSessionMap.put(username, session);
 		Result result = new Result();
 		
@@ -61,7 +64,10 @@ public class UserListHandler extends AbstractWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		String username = (String)session.getAttributes().get("username");
+		System.out.println("要移除的username:" + username);
+		System.out.println("移除前的set:" + set);
 		set.remove(username);
+		System.out.println("移除后的set:" + set);
 		userSessionMap.remove(username);
 		Result result = new Result();
 		result.setCode(StatusConstant.USERLIST);
