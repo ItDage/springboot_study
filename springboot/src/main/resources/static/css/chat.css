@@ -1,7 +1,7 @@
 
-.head{
+/* .head{
 	height: 46px;
-}
+} */
 
 .headImage{
 	margin-left: 5px;
@@ -10,7 +10,7 @@
 }
 
 #content{
-	height: 280px;
+	height: 326px;
 }
 
 .layui-bg-green{

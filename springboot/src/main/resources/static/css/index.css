@@ -7,3 +7,9 @@ a.showBG:hover{
 	color:red;
 	cursor: pointer;
 }
+
+.headImage{
+/* 	margin-left: 5px; */
+	width: 40px;
+	height: 40px;
+}

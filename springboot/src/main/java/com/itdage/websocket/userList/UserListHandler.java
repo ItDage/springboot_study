@@ -1,7 +1,6 @@
 package com.itdage.websocket.userList;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,11 +13,13 @@ import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
 import com.google.gson.Gson;
 import com.itdage.constant.StatusConstant;
+import com.itdage.controller.LoginController;
 import com.itdage.entity.Result;
 
 @Service
 public class UserListHandler extends AbstractWebSocketHandler {
-	public static Set<String> set = new HashSet<>();
+	// 登录后保存的用户名  退出即注销
+	public static Set<String> set = LoginController.userMap.keySet();
 	// 保存用户名和session的映射关系
 	public static Map<String, WebSocketSession> userSessionMap = new ConcurrentHashMap<String, WebSocketSession>();
 	// 其他类注入
@@ -33,8 +34,6 @@ public class UserListHandler extends AbstractWebSocketHandler {
 //		if(String)
 		// 保存用户名和session的映射关系,发送消息时用
 		userSessionMap.put(username, session);
-		// 保存人员在线列表
-		set.add(username);
 		Result result = new Result();
 		
 		// 广播上线通知
@@ -66,7 +65,7 @@ public class UserListHandler extends AbstractWebSocketHandler {
 		userSessionMap.remove(username);
 		Result result = new Result();
 		result.setCode(StatusConstant.USERLIST);
-		broadcastMsg(set, (String)session.getAttributes().get("username"), false, true, result);
+		broadcastMsg(set, username, false, true, result);
 	}
 	public WebSocketSession getSession() throws Exception {
 		if (!this.session.isOpen()) {
