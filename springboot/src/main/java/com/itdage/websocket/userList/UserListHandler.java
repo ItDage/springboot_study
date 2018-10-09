@@ -34,7 +34,6 @@ public class UserListHandler extends AbstractWebSocketHandler {
 		String username = (String) session.getAttributes().get("username");
 //		if(String)
 		// 保存用户名和session的映射关系,发送消息时用
-		System.out.println("建立连接前" + set);
 		set.add(username);
 		userSessionMap.put(username, session);
 		Result result = new Result();
@@ -64,10 +63,7 @@ public class UserListHandler extends AbstractWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		String username = (String)session.getAttributes().get("username");
-		System.out.println("要移除的username:" + username);
-		System.out.println("移除前的set:" + set);
 		set.remove(username);
-		System.out.println("移除后的set:" + set);
 		userSessionMap.remove(username);
 		Result result = new Result();
 		result.setCode(StatusConstant.USERLIST);
