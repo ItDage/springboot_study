@@ -27,9 +27,7 @@ public class ChatHandler extends AbstractWebSocketHandler {
 	private static Map<String, String> relationMap = new ConcurrentHashMap<String, String>();
 	// 保存chat页面user和session关系
 	public static Map<String, WebSocketSession> chatSessionMap = new ConcurrentHashMap<String, WebSocketSession>();
-	// 缓存未接收的消息(废弃)
-	public static Map<String, Result> cacheMessage = new ConcurrentHashMap<>();
-	
+	// 缓存未接收的消息(对方chat.html没有打开, 缓存该信息)
 	public static List<Result> cacheMessageList = new ArrayList<Result>();
 	
 	@Override
@@ -52,7 +50,6 @@ public class ChatHandler extends AbstractWebSocketHandler {
 		}
 		// 主页取消小黄点
 		if(isRemoveDot){
-			System.err.println("测试取消小黄点");
 			Result result = new Result();
 			result.setCode(StatusConstant.MESSAGE_INDEX_CANCEL);
 			result.setObj(user_to);
@@ -71,7 +68,7 @@ public class ChatHandler extends AbstractWebSocketHandler {
 		result.setUser_to(user_to);
 		// 消息发送时间--通用
 		result.setDate(DateUtil.getYMDHMSByDate(new Date()));
-		// 消息内容 -- 通用
+		//TODO 消息内容 -- 通用  --非空处理
 		result.setMsg((String)message.getPayload());
 		// 入口user_from和user_to已判断是否为空,此处不需再判断
 		// 推送到自己页面(不管对方是否打开了chat.html页面)
