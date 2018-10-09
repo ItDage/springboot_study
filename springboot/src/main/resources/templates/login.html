@@ -19,9 +19,10 @@
 <script type="text/javascript">
 function isagree() {
 	  var obj = $('#loginForm').serialize();
+	  var projectName = '/chat';
 	  $.ajax({
 	    type: "POST",
-	    url: "/login",
+	    url: projectName + "/login",
 	    async: false,
 	    data: obj,// 要提交的表单
 	    success: function (result) {

@@ -70,9 +70,10 @@
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
 	var host = location.host;
+	var projectName = '/chat';
 	var websocket = null;
 	if ('WebSocket' in window) {
-		websocket = new WebSocket("ws://" + host + "/userList");
+		websocket = new WebSocket("ws://" + host + projectName + "/userList");
 		//接收到消息
 		websocket.onmessage = function(evt) {
 			var result = JSON.parse(evt.data);
@@ -129,7 +130,7 @@
 				resize : false,
 				maxmin : true, //开启最大化最小化按钮
 				area : [ '700px', '560px' ],
-				content : '/chatPage?to_user='+to_user
+				content : projectName + '/chatPage?to_user='+to_user
 			});
 		}
 		//聊天室
@@ -142,7 +143,7 @@
 				resize : false,
 				maxmin : true, //开启最大化最小化按钮
 				area : [ '700px', '560px' ],
-				content : '/chatRoom'
+				content : projectName + '/chatRoom'
 			});
 		}
 		
