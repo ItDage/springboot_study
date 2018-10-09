@@ -18,4 +18,9 @@ public class ChatController {
 	public String forwardChat(){
 		return "chat.html";
 	}
+	
+	@RequestMapping("/chatRoom")
+	public String forwardChatRoom(){
+		return "chatRoom.html";
+	}
 }

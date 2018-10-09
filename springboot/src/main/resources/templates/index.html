@@ -32,7 +32,7 @@
 					<ul class="layui-tab-title">
 						<li class="layui-this">历史会话</li>
 						<li onclick="loadUserList()">用户列表</li>
-						<li>群组</li>
+						<li>聊天室</li>
 						<li>其他</li>
 					</ul>
 					<div class="layui-tab-content">
@@ -41,17 +41,17 @@
 						</div>
 						<div class="layui-tab-item">
 							<ul id="userOnlineList">
+
+							</ul>
+						</div>
+						<div class="layui-tab-item">
+							<ul>
 								<li style="height: 50px;"><a class="showBG"
-									onclick="chat()"> <img alt="" src="/image/QQ.png"
-										width="40px" height="40px"> &nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
-								</a></li>
-								<li style="height: 50px;"><a class="showBG" href="#"> <img
-										alt="" src="/image/QQ.png" width="40px" height="40px">
-										&nbsp;&nbsp;&nbsp;&nbsp;<span>咫尺天涯</span>
+									onclick="chatRoom()"> <img alt="" src="/image/QQ.png"
+										width="40px" height="40px"> &nbsp;&nbsp;&nbsp;&nbsp;<span>聊天室一</span>
 								</a></li>
 							</ul>
 						</div>
-						<div class="layui-tab-item">内容3</div>
 						<div class="layui-tab-item">内容4</div>
 					</div>
 				</div>
@@ -67,7 +67,7 @@
 
 
 </body>
-<script type="text/javascript"  th:inline="javascript">
+<script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
 	var host = location.host;
 	var websocket = null;
@@ -117,7 +117,8 @@
 			var othis = $(this), type = othis.data('type');
 			active[type] ? active[type].call(this, othis) : '';
 		});
-
+		
+		//单聊
 		window.chat = function(to_user) {
 			layer.open({
 				type : 2,
@@ -130,6 +131,20 @@
 				content : '/chatPage?to_user='+to_user
 			});
 		}
+		//聊天室
+		window.chatRoom = function() {
+			layer.open({
+				type : 2,
+				title : '<img alt="" src="/image/QQ.png" class="headImage">&nbsp;&nbsp;聊天室一',
+				shadeClose : true,
+				shade : false,
+				resize : false,
+				maxmin : true, //开启最大化最小化按钮
+				area : [ '700px', '560px' ],
+				content : '/chatRoom'
+			});
+		}
+		
 	});
 	/* ]]>*/
 </script>
