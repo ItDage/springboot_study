@@ -30,12 +30,12 @@ public class LoginFilter implements Filter {
 		String username = (String) req.getSession().getAttribute("username");
 		if (req.getRequestURI().contains("login") || !StringUtils.isEmpty(username)
 				|| req.getRequestURI().endsWith(".js") || req.getRequestURI().endsWith(".css")
-				|| req.getRequestURI().endsWith(".png") || req.getRequestURI().endsWith(".jpg") || req.getRequestURI().contains("chat")
-				 || req.getRequestURI().contains("userList")) {
+				|| req.getRequestURI().endsWith(".png") || req.getRequestURI().endsWith(".jpg")
+				|| req.getRequestURI().contains("chatWS") || req.getRequestURI().contains("userList")) {
 			chain.doFilter(req, res);
 		} else {
 			// 未登录
-			res.sendRedirect("/loginHtml");
+			res.sendRedirect("/chat/loginHtml");
 		}
 	}
 	@Override

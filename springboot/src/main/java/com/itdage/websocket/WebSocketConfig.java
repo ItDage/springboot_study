@@ -29,7 +29,7 @@ public class WebSocketConfig implements WebSocketConfigurer{
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		
 		registry.addHandler(userListHandler, "/userList").addInterceptors(interceptor).setAllowedOrigins("*");
-		registry.addHandler(chatHandler, "/chat").addInterceptors(chatInterceptor).setAllowedOrigins("*");
+		registry.addHandler(chatHandler, "/chatWS").addInterceptors(chatInterceptor).setAllowedOrigins("*");
 		
 	}
 }

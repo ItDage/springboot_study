@@ -18,7 +18,7 @@ public class LoginController {
 
 	@RequestMapping("/loginHtml")
 	public String loginHtml() {
-		return "login.html";
+		return "redirect:/login.html";
 	}
 	
 	@ResponseBody
