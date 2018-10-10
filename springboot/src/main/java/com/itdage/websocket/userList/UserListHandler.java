@@ -34,6 +34,7 @@ public class UserListHandler extends AbstractWebSocketHandler {
 		String username = (String) session.getAttributes().get("username");
 //		if(String)
 		// 保存用户名和session的映射关系,发送消息时用
+		System.out.println(LoginController.userMap);
 		set.add(username);
 		userSessionMap.put(username, session);
 		Result result = new Result();

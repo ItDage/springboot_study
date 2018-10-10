@@ -15,9 +15,9 @@
 	密码:<input name="password" />
 	<br />
 </form>
-	<button onclick="isagree()">登录</button>
+	<button onclick="login()">登录</button>
 <script type="text/javascript">
-function isagree() {
+function login() {
 	  var obj = $('#loginForm').serialize();
 	  var projectName = '/chat';
 	  $.ajax({

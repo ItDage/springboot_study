@@ -18,23 +18,27 @@ public class LoginController {
 
 	@RequestMapping("/loginHtml")
 	public String loginHtml() {
-		return "login";
+		return "login-new";
 	}
-	
 	@ResponseBody
-	@RequestMapping(value = "/login", method= RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Result login(String username, String password, HttpServletRequest request) {
 		Result result = new Result();
-		if (userMap.containsKey(username)) {
-			// 用户已存在
-			result.setCode(400);
-			result.setMsg("用户已存在");
-		} else {
-			request.getSession().setAttribute("username", username);
-			userMap.put(username, password);
-			result.setMsg("登录成功");
-			result.setCode(200);
+			if (userMap.containsKey(username)) {
+				if(userMap.get(username).equals(password)){
+					request.getSession().setAttribute("username", username);
+					result.setMsg("登录成功");
+					result.setCode(200);
+				}else{
+					result.setCode(400);
+					result.setMsg("用户名或密码不正确!");
+				}
+			} else {
+				result.setCode(200);
+				result.setMsg("注册成功");
+				userMap.put(username, password);
+				request.getSession().setAttribute("username", username);
+			}
+			return result;
 		}
-		return result;
-	}
 }
