@@ -27,7 +27,7 @@ function isagree() {
 	    data: obj,// 要提交的表单
 	    success: function (result) {
 	    	if(result.code == 200){
-	    		window.location.href = "/index";
+	    		window.location.href = projectName + "/index";
 	    	}else if(result.code == 400){
 	    		alert("用户已存在 请重新输入");
 	    	}

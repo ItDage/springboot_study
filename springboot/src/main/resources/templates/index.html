@@ -47,7 +47,7 @@
 						<div class="layui-tab-item">
 							<ul>
 								<li style="height: 50px;"><a class="showBG"
-									onclick="chatRoom()"> <img alt="" src="/image/QQ.png"
+									onclick="chatRoom()"> <img alt="" src="/chat/image/QQ.png"
 										width="40px" height="40px"> &nbsp;&nbsp;&nbsp;&nbsp;<span>聊天室一</span>
 								</a></li>
 							</ul>
@@ -83,7 +83,7 @@
 				for (var i = 0; i < result.obj.length; i++) {
 					$("#userOnlineList")
 							.append(
-									'<li style="height: 50px;"><a class="showBG" onclick=chat("'+ result.obj[i]+'")> <img src="/image/QQ.png"'
+									'<li style="height: 50px;"><a class="showBG" onclick=chat("'+ result.obj[i]+'")> <img src="/chat/image/QQ.png"'
 	                        + "width='40px' height='40px'> &nbsp;&nbsp;&nbsp;&nbsp;<span>"
 											+ result.obj[i]
 											+ "</span>"
@@ -124,7 +124,7 @@
 		window.chat = function(to_user) {
 			layer.open({
 				type : 2,
-				title : '<img alt="" src="/image/QQ.png" class="headImage">&nbsp;&nbsp;' + to_user,
+				title : '<img alt="" src="/chat/image/QQ.png" class="headImage">&nbsp;&nbsp;' + to_user,
 				shadeClose : true,
 				shade : false,
 				resize : false,
@@ -137,7 +137,7 @@
 		window.chatRoom = function() {
 			layer.open({
 				type : 2,
-				title : '<img alt="" src="/image/QQ.png" class="headImage">&nbsp;&nbsp;聊天室一',
+				title : '<img alt="" src="/chat/image/QQ.png" class="headImage">&nbsp;&nbsp;聊天室一',
 				shadeClose : true,
 				shade : false,
 				resize : false,
