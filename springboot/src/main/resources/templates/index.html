@@ -69,11 +69,12 @@
 </body>
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
+    window.localStorage.ws = 'wss:\\';
 	var host = location.host;
 	var projectName = '/chat';
 	var websocket = null;
 	if ('WebSocket' in window) {
-		websocket = new WebSocket("ws://" + host + projectName + "/userList");
+		websocket = new WebSocket(window.localStorage.ws + host + projectName + "/userList");
 		//接收到消息
 		websocket.onmessage = function(evt) {
 			var result = JSON.parse(evt.data);
