@@ -47,7 +47,7 @@
 						<div class="layui-tab-item">
 							<ul>
 								<li style="height: 50px;"><a class="showBG"
-									onclick="chatRoom()"> <img alt="" src="/image/QQ.png"
+									onclick="chatRoom()"> <img alt="" src="/chat/image/QQ.png"
 										width="40px" height="40px"> &nbsp;&nbsp;&nbsp;&nbsp;<span>聊天室一</span>
 								</a></li>
 							</ul>
@@ -70,9 +70,10 @@
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
 	var host = location.host;
+	var projectName = '/chat';
 	var websocket = null;
 	if ('WebSocket' in window) {
-		websocket = new WebSocket("ws://" + host + "/userList");
+		websocket = new WebSocket("ws://" + host + projectName + "/userList");
 		//接收到消息
 		websocket.onmessage = function(evt) {
 			var result = JSON.parse(evt.data);
@@ -82,7 +83,7 @@
 				for (var i = 0; i < result.obj.length; i++) {
 					$("#userOnlineList")
 							.append(
-									'<li style="height: 50px;"><a class="showBG" onclick=chat("'+ result.obj[i]+'")> <img src="/image/QQ.png"'
+									'<li style="height: 50px;"><a class="showBG" onclick=chat("'+ result.obj[i]+'")> <img src="/chat/image/QQ.png"'
 	                        + "width='40px' height='40px'> &nbsp;&nbsp;&nbsp;&nbsp;<span>"
 											+ result.obj[i]
 											+ "</span>"
@@ -123,26 +124,26 @@
 		window.chat = function(to_user) {
 			layer.open({
 				type : 2,
-				title : '<img alt="" src="/image/QQ.png" class="headImage">&nbsp;&nbsp;' + to_user,
+				title : '<img alt="" src="/chat/image/QQ.png" class="headImage">&nbsp;&nbsp;' + to_user,
 				shadeClose : true,
 				shade : false,
 				resize : false,
 				maxmin : true, //开启最大化最小化按钮
 				area : [ '700px', '560px' ],
-				content : '/chatPage?to_user='+to_user
+				content : projectName + '/chatPage?to_user='+to_user
 			});
 		}
 		//聊天室
 		window.chatRoom = function() {
 			layer.open({
 				type : 2,
-				title : '<img alt="" src="/image/QQ.png" class="headImage">&nbsp;&nbsp;聊天室一',
+				title : '<img alt="" src="/chat/image/QQ.png" class="headImage">&nbsp;&nbsp;聊天室一',
 				shadeClose : true,
 				shade : false,
 				resize : false,
 				maxmin : true, //开启最大化最小化按钮
 				area : [ '700px', '560px' ],
-				content : '/chatRoom'
+				content : projectName + '/chatRoom'
 			});
 		}
 		
