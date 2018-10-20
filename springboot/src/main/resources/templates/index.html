@@ -80,7 +80,7 @@
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
     window.localStorage.project = '/chat';
-    window.localStorage.ws = 'wss:\\';
+    window.localStorage.ws = 'ws:\\';
 	var host = location.host;
 	var projectName = window.localStorage.project;
 	var websocket = null;
@@ -107,6 +107,7 @@
 			}else if(result.code == 205){
 				// 消息通知--设置小黄点
 				$("#notice_" + result.obj).addClass("layui-badge-dot layui-bg-orange");
+				$("#notice").append("<li><span style='color:#FF5722'>您收到一条来自" + result.obj + "发送的消息" + "</span></li>");
 			}else if(result.code == 208){
 				// 消息通知--取消小黄点
 				$("#notice_" + result.obj).removeClass("layui-badge-dot layui-bg-orange");
