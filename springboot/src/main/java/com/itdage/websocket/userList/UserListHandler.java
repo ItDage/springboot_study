@@ -15,7 +15,7 @@ import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 import com.google.gson.Gson;
 import com.itdage.constant.StatusConstant;
 import com.itdage.controller.LoginController;
-import com.itdage.entity.Result;
+import com.itdage.entity.ResultMessage;
 
 @Service
 public class UserListHandler extends AbstractWebSocketHandler {
@@ -37,7 +37,7 @@ public class UserListHandler extends AbstractWebSocketHandler {
 		System.out.println(LoginController.userMap);
 		set.add(username);
 		userSessionMap.put(username, session);
-		Result result = new Result();
+		ResultMessage result = new ResultMessage();
 		
 		// 广播上线通知
 		try {
@@ -56,7 +56,7 @@ public class UserListHandler extends AbstractWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		String msg = message.getPayload();
-		Result result = new Gson().fromJson(msg, Result.class);
+		ResultMessage result = new Gson().fromJson(msg, ResultMessage.class);
 		if (result.getCode() == StatusConstant.USERLIST) {
 			broadcastMsg(set, (String)session.getAttributes().get("username"), true, false, result);
 		}
@@ -66,7 +66,7 @@ public class UserListHandler extends AbstractWebSocketHandler {
 		String username = (String)session.getAttributes().get("username");
 		set.remove(username);
 		userSessionMap.remove(username);
-		Result result = new Result();
+		ResultMessage result = new ResultMessage();
 		result.setCode(StatusConstant.USERLIST);
 		broadcastMsg(set, username, false, true, result);
 	}
@@ -91,7 +91,7 @@ public class UserListHandler extends AbstractWebSocketHandler {
 	 * @throws IOException
 	 * @return: void
 	 */
-	public void broadcastMsg(Set<String> set, String username, boolean isSingle, boolean excludeCurrentUser, Result result) throws IOException {
+	public void broadcastMsg(Set<String> set, String username, boolean isSingle, boolean excludeCurrentUser, ResultMessage result) throws IOException {
 		result.setObj(set);
 		// 发送消息
 		try {

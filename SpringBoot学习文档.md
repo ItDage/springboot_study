@@ -239,3 +239,50 @@
 ###Web Services
 ###过滤器&&拦截器
 1. `详细介绍`[https://segmentfault.com/a/1190000012072060](https://segmentfault.com/a/1190000012072060 "SpringBoot过滤器和拦截器")
+###SpringBoot定时器
+1. 在入口类中加入@EnableScheduling注解：
+	<pre><code>
+	@SpringBootApplication
+	@EnableScheduling
+	public class MySpringBootApplication {
+		private static Logger logger = LoggerFactory.getLogger(MySpringBootApplication.class);
+		
+		public static void main(String[] args) {
+			SpringApplication.run(MySpringBootApplication.class, args);
+			logger.info("My Spring Boot Application Started");
+		}
+	}
+	</code></pre>
+2. 创建定时器类，类中的方法注解了@Scheduled就是一个定时器：
+	<pre><code>
+	@Component
+	public class Scheduler {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	@Scheduled(cron="0 0/1 * * * ?") //每分钟执行一次
+	public void statusCheck() {    
+		logger.info("每分钟执行一次。开始……");
+		//statusTask.healthCheck();
+		logger.info("每分钟执行一次。结束。");
+	}  
+ 
+	@Scheduled(fixedRate=20000)
+	public void testTasks() {    
+		logger.info("每20秒执行一次。开始……");
+		//statusTask.healthCheck();
+		logger.info("每20秒执行一次。结束。");
+	}  
+	}
+	</code></pre>
+3. corn表达式`https://www.cnblogs.com/xiandedanteng/p/3678650.html`
+###SpringBoot定时器和WebSocket同时用出现启动异常解决方案
+1. 配置类中加入如下代码
+	<pre><code>
+	@Bean
+	public TaskScheduler taskScheduler() {
+	    ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+	    taskScheduler.setPoolSize(10);
+	    taskScheduler.initialize();
+	    return taskScheduler;
+	}
+	</code></pre>

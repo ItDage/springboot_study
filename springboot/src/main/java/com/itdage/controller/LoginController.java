@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.itdage.entity.Result;
+import com.itdage.entity.ResultMessage;
 
 @Controller
 public class LoginController {
@@ -19,36 +19,35 @@ public class LoginController {
 
 	@RequestMapping("/login")
 	public String loginHtml() {
-		return "login-new";
+		return "login";
 	}
-
-	// @ResponseBody
-	// @RequestMapping(value = "/login", method = RequestMethod.POST)
-	// public Result login(String username, String password, HttpServletRequest
-	// request) {
-	// Result result = new Result();
-	// if (userMap.containsKey(username)) {
-	// if (userMap.get(username).equals(password)) {
-	// request.getSession().setAttribute("username", username);
-	// result.setMsg("登录成功");
-	// result.setCode(200);
-	// } else {
-	// result.setCode(400);
-	// result.setMsg("用户名或密码不正确!");
-	// }
-	// } else {
-	// result.setCode(200);
-	// result.setMsg("注册成功");
-	// userMap.put(username, password);
-	// request.getSession().setAttribute("username", username);
-	// }
-	// return result;
-	// }
+	@ResponseBody
 	@RequestMapping(value = "/loginMethod", method = RequestMethod.POST)
+	public ResultMessage login(String username, String password, HttpServletRequest request) {
+		ResultMessage result = new ResultMessage();
+		if (userMap.containsKey(username)) {
+			if (userMap.get(username).equals(password)) {
+				request.getSession().setAttribute("username", username);
+				result.setMsg("登录成功");
+				result.setCode(200);
+			} else {
+				result.setCode(400);
+				result.setMsg("用户名或密码不正确!");
+			}
+		} else {
+			result.setCode(200);
+			result.setMsg("注册成功");
+			userMap.put(username, password);
+			request.getSession().setAttribute("username", username);
+		}
+		return result;
+	}
+	/*@RequestMapping(value = "/loginMethod", method = RequestMethod.POST)
 	public String login(String username, String password, HttpServletRequest request, RedirectAttributes attribute) {
 		if (userMap.containsKey(username)) {
 			if (userMap.get(username).equals(password)) {
 				request.getSession().setAttribute("username", username);
+				return "index";
 			} else {
 				attribute.addFlashAttribute("code", 404);
 				attribute.addFlashAttribute("username", username);
@@ -60,5 +59,5 @@ public class LoginController {
 			request.getSession().setAttribute("username", username);
 		}
 		return "index";
-	}
+	}*/
 }

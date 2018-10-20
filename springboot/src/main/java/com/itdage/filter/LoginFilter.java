@@ -35,7 +35,7 @@ public class LoginFilter implements Filter {
 			chain.doFilter(req, res);
 		} else {
 			// 未登录
-			res.sendRedirect("login-new.html");
+			res.sendRedirect("login");
 		}
 	}
 	@Override

@@ -10,7 +10,7 @@
 </head>
 <body>
 	<div class="layui-container">
-		<blockquote class="layui-elem-quote">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
+		<blockquote class="layui-elem-quote">注意：最终解释权归1418332683@qq.com所有</blockquote>
 
 		<fieldset class="layui-elem-field layui-field-title"
 			style="margin-top: 20px;">
@@ -30,14 +30,19 @@
 			<div class="layui-col-xs4">
 				<div class="layui-tab layui-tab layui-tab-brief">
 					<ul class="layui-tab-title">
-						<li class="layui-this">历史会话</li>
+						<li class="layui-this">说明</li>
 						<li onclick="loadUserList()">用户列表</li>
 						<li>聊天室</li>
-						<li>其他</li>
+						<li onclick="loadNews()">新闻头条</li>
 					</ul>
 					<div class="layui-tab-content">
 						<div class="layui-tab-item layui-show">
-							3. 高度默认自适应，也可以随意固宽。 <br>2. Tab进行了响应式处理，所以无需担心数量多少。
+							1. 系统暂时实现单聊,新闻头条模块,暂不适配手机端。<br>
+							2. 测试聊天可以使用两个浏览器登录两个账号进行聊天。<br>
+							3. 系统不在数据库保存用户任何信息。<br>
+							4. 新闻头条模块由于数据接口100次/日的请求限制,现是每30分钟刷新一次新闻。<br>
+							5. 聊天室模块正在开发中。<br>
+							6. 系统使用中有bug欢迎大家指出,有关问题可发送我邮箱,我会尽快回复。<br>
 						</div>
 						<div class="layui-tab-item">
 							<ul id="userOnlineList">
@@ -52,7 +57,11 @@
 								</a></li>
 							</ul>
 						</div>
-						<div class="layui-tab-item">内容4</div>
+						<div class="layui-tab-item">
+							<ul id="news">
+
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -67,11 +76,13 @@
 
 
 </body>
+<script type="text/javascript" th:src="@{/js/index.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
-    window.localStorage.ws = 'ws:\\';
+    window.localStorage.project = '/chat';
+    window.localStorage.ws = 'wss:\\';
 	var host = location.host;
-	var projectName = '/chat';
+	var projectName = window.localStorage.project;
 	var websocket = null;
 	if ('WebSocket' in window) {
 		websocket = new WebSocket(window.localStorage.ws + host + projectName + "/userList");
@@ -129,7 +140,7 @@
 				shadeClose : true,
 				shade : false,
 				resize : false,
-				maxmin : true, //开启最大化最小化按钮
+				maxmin : false, //开启最大化最小化按钮
 				area : [ '700px', '560px' ],
 				content : projectName + '/chatPage?to_user='+to_user
 			});
@@ -137,18 +148,31 @@
 		//聊天室
 		window.chatRoom = function() {
 			layer.open({
-				type : 2,
+				type : 1,
 				title : '<img alt="" src="/chat/image/QQ.png" class="headImage">&nbsp;&nbsp;聊天室一',
 				shadeClose : true,
 				shade : false,
 				resize : false,
-				maxmin : true, //开启最大化最小化按钮
-				area : [ '700px', '560px' ],
+				maxmin : false, //开启最大化最小化按钮
+				area : [ '700px', '700px' ],
 				content : projectName + '/chatRoom'
+			});
+		}
+		window.news = function(title, url) {
+			layer.open({
+				type : 2,
+				title : title,
+				shadeClose : true,
+				shade : false,
+				resize : true,
+				maxmin : false, //开启最大化最小化按钮
+				area : [ '1200px', '600px' ],
+				content : url
 			});
 		}
 		
 	});
+	
 	/* ]]>*/
 </script>
 </html>

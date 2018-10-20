@@ -16,7 +16,7 @@ import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
 import com.google.gson.Gson;
 import com.itdage.constant.StatusConstant;
-import com.itdage.entity.Result;
+import com.itdage.entity.ResultMessage;
 import com.itdage.util.DateUtil;
 import com.itdage.websocket.userList.UserListHandler;
 
@@ -28,7 +28,7 @@ public class ChatHandler extends AbstractWebSocketHandler {
 	// 保存chat页面user和session关系
 	public static Map<String, WebSocketSession> chatSessionMap = new ConcurrentHashMap<String, WebSocketSession>();
 	// 缓存未接收的消息(对方chat.html没有打开, 缓存该信息)
-	public static List<Result> cacheMessageList = new ArrayList<Result>();
+	public static List<ResultMessage> cacheMessageList = new ArrayList<ResultMessage>();
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -37,10 +37,10 @@ public class ChatHandler extends AbstractWebSocketHandler {
 		relationMap.put(user_from, user_to);
 		chatSessionMap.put(user_from, session);
 		System.out.println("chat连接成功");
-		Iterator<Result> iterator = cacheMessageList.iterator();
+		Iterator<ResultMessage> iterator = cacheMessageList.iterator();
 		boolean isRemoveDot = false;
 		while(iterator.hasNext()){
-			Result result = iterator.next();
+			ResultMessage result = iterator.next();
 			if(user_from.equals(result.getUser_to())){
 				result.setCode(StatusConstant.MESSAGE_CHAT_NOTICE);
 				session.sendMessage(new TextMessage(new Gson().toJson(result)));
@@ -50,7 +50,7 @@ public class ChatHandler extends AbstractWebSocketHandler {
 		}
 		// 主页取消小黄点
 		if(isRemoveDot){
-			Result result = new Result();
+			ResultMessage result = new ResultMessage();
 			result.setCode(StatusConstant.MESSAGE_INDEX_CANCEL);
 			result.setObj(user_to);
 			UserListHandler.userSessionMap.get(user_from).sendMessage(new TextMessage(new Gson().toJson(result)));
@@ -60,7 +60,7 @@ public class ChatHandler extends AbstractWebSocketHandler {
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		// 构造消息返回实体
-		Result result = new Result();
+		ResultMessage result = new ResultMessage();
 		// 获取消息来源和目的地
 		String user_from = (String) session.getAttributes().get("user_from");
 		String user_to = (String) session.getAttributes().get("user_to");
