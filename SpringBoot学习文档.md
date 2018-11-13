@@ -286,3 +286,7 @@
 	    return taskScheduler;
 	}
 	</code></pre>
+###@PostConstruct配置缓存
+1. 使用该标签配置缓存![](https://i.imgur.com/DBvkl5i.png)
+##Hibernate
+1. `select new map(jxtj.CBh as CBhXttj) from A jxtj`返回的是`List<Map<String, Object>>`

@@ -34,7 +34,6 @@ public class NewsController {
 			map.put("news", news2);
 			return news2;
 		}
-		System.out.println(NewsInterfaceController.map.get("news"));
 		return map.get("news");
 	}
 }
