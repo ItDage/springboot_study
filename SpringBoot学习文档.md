@@ -137,6 +137,9 @@
 2. 日志输出到文件:
 	+ application.properties中加入logging.file或者logging.path
 	+ 日志系统是在应用程序生命周期的早期初始化的。因此，在通过@PropertySource注释加载的属性文件中找不到日志属性。
+	+ 日志文件大小默认是10M, 超过10M会覆盖。可通过`logging.file.max-size`属性修改
+3. SpringBoot有通用配置
+	+ 日志框架有日志框架的配置, 单独配置
 ###内嵌服务器
 1. `spring-boot-starter-web`内嵌Tomcat  还可用`spring-boot-starter-webflux`
 ###JSON序列化和反序列化
