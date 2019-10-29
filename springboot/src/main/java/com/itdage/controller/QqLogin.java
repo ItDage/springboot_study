@@ -9,12 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class QqLogin {
-    @ResponseBody
     @RequestMapping("/")
-    public Map<String, Object> test(){
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("code", 200);
-        map.put("msg", "登录成功");
-        return map;
+    public String forwardChat(){
+        return "empty.html";
     }
 }
