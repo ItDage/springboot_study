@@ -10,7 +10,8 @@
            alert("openId:" + openId  + "accessToken:" +accessToken)
             window.parent.parent.location.href="http://localhost:8080/#/Navigation?openId=" + openId + "&accessToken=" + accessToken;
         });
-        window.close();
+        window.parent.close();
+        window.parent.parent.close();
     } else {
         alert("登录失败")
         console.log("登录失败");
