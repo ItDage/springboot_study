@@ -9,7 +9,8 @@
         QC.Login.getMe(function(openId, accessToken) {//该处的openId，accessToken就是后台需要的参数了，后台通过这些参数拿取临时登录凭证，然后就是自己的逻辑了<br>          console.log("登录回调");
            alert("openId:" + openId  + "accessToken:" +accessToken)
         });
-        window.location.href="http://localhost:8080/#/"
+        window.parent.opener.location.reload();
+        window.close();
     } else {
         alert("登录失败")
         console.log("登录失败");
